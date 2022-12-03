@@ -171,6 +171,12 @@ def E_EdS(x: np.array)-> np.array:
 
     return 1/np.sqrt((1+x)**3)
 
+C_C: List[float] = []
+
+def E_C_C(x: np.array)-> np.array:
+
+    return 1/np.sqrt(0.5*(1+x)**3+0.5)
+
 z_o: np.array = np.linspace(0, 1.45)
 
 for i in range(len(z_o)):
@@ -180,6 +186,8 @@ for i in range(len(z_o)):
     CDM.append(5*np.log10(((c/H0)*(1+z_o[i])*integrate.simpson(E_CDM(x), x)))-5)
 
     EdS.append(5*np.log10(((c/H0)*(1+z_o[i])*integrate.simpson(E_EdS(x), x)))-5)
+    
+    C_C.append(5*np.log10(((c/H0)*(1+z_o[i])*integrate.simpson(E_C_C(x), x)))-5)
 
 
 plt.figure()
@@ -216,7 +224,7 @@ plt.grid(True)
 
 plt.savefig('r frente a z.pdf')
 
-#%%Objetivos avanzados
+#%%Objetivos avanzados 1
 
 plt.figure()
 
@@ -255,3 +263,41 @@ plt.grid(True)
 
 
 plt.savefig('r frente a z extra datos.pdf')
+
+#%%Objetivos avanzados 2
+
+plt.figure()
+
+
+plt.plot(z1, r1, '.', label='Supernovas', color='blue')
+
+for i in range(len(r1)):
+
+    plt.errorbar(z1[i],r1[i], yerr = r_err1[i], capsize = 3, color='blue')
+
+plt.plot(z1, r1, '.', color='blue')
+
+for i in range(len(r2)):
+
+    plt.errorbar(z2[i],r2[i], yerr = r_err2[i], capsize = 3, color='blue')
+
+plt.plot(z_o, CDM, color='red', label='$\Lambda$CDM concordance')
+
+plt.plot(z_o, EdS, color='black', label=r'Einstein-de Sitter model')
+
+plt.plot(z_o, C_C, color='green', label='$\Omega_\Lambda=0.5$, $\Omega_m=0.5$')
+
+plt.xlabel(r'$z$')
+
+plt.ylabel(r'$\mu$ [pc]')
+
+plt.title(r'Distance modulus ($\mu$) as a function of redshift ($z$)')
+
+plt.legend()
+
+plt.xlim(0, 0.85)
+
+plt.grid(True)
+
+
+plt.savefig('r frente a z extra modelos.pdf')
