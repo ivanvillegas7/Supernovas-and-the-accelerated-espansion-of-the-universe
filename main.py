@@ -157,13 +157,13 @@ Materia: float = (0.315+0.308+0.3065+0.3156+0.3121+0.3089)/6
 
 Curvatura: float = (0.0008-0.052-0.005-0.0001-0.04-0.004)/6
 
-Radiación: float = 1-Vacio-Materia-Curvatura
+Radiacion: float = 1-Vacio-Materia-Curvatura
 
 CDM: List[float] = []
 
 def E_CDM(x: np.array)-> np.array:
 
-    return 1/np.sqrt(Materia*(1+x)**3+Vacio)
+    return 1/np.sqrt(Materia*(1+x)**3+Vacio+Radiacion*(1+x)**4+Curvatura*(1+x)**2)
 
 EdS: List[float] = []
 
@@ -199,7 +199,7 @@ for i in range(len(r2)):
 
 plt.plot(z_o, CDM, color='red', label='$\Lambda$CDM concordance')
 
-plt.plot(z_o, EdS, color='purple', label=r'Einstein-de Sitter model')
+plt.plot(z_o, EdS, color='black', label=r'Einstein-de Sitter model')
 
 plt.xlabel(r'$z$')
 
@@ -241,7 +241,7 @@ for i in range(len(r)):
 
 plt.plot(z_o, CDM, color='red', label='$\Lambda$CDM concordance')
 
-plt.plot(z_o, EdS, color='purple', label=r'Einstein-de Sitter model')
+plt.plot(z_o, EdS, color='black', label=r'Einstein-de Sitter model')
 
 plt.xlabel(r'$z$')
 
