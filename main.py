@@ -120,13 +120,13 @@ output_df.to_csv('datos.dat')
 plt.figure()
 
 
-plt.plot(z1, r1, '.', label='Supernovas', color='blue')
+plt.plot(z1, r1, '.', label=r'SCP SN_E I_A', color='purple')
 
 for i in range(len(r1)):
 
-    plt.errorbar(z1[i],r1[i], yerr = r_err1[i], capsize = 3, color='blue')
+    plt.errorbar(z1[i],r1[i], yerr = r_err1[i], capsize = 3, color='purple')
 
-plt.plot(z1, r1, '.', color='blue')
+plt.plot(z2, r2, '.', label=r'CALÁN/TOLOLO SN_E I_A', color='blue')
 
 for i in range(len(r2)):
 
@@ -199,7 +199,7 @@ for i in range(len(r1)):
 
     plt.errorbar(z1[i],r1[i], yerr = r_err1[i], capsize = 3, color='blue')
 
-plt.plot(z1, r1, '.', color='blue')
+plt.plot(z2, r2, '.', color='blue')
 
 for i in range(len(r2)):
 
@@ -235,7 +235,7 @@ for i in range(len(r1)):
 
     plt.errorbar(z1[i],r1[i], yerr = r_err1[i], capsize = 3, color='blue')
 
-plt.plot(z1, r1, '.', color='blue')
+plt.plot(z2, r2, '.', color='blue')
 
 for i in range(len(r2)):
 
@@ -275,7 +275,7 @@ for i in range(len(r1)):
 
     plt.errorbar(z1[i],r1[i], yerr = r_err1[i], capsize = 3, color='blue')
 
-plt.plot(z1, r1, '.', color='blue')
+plt.plot(z2, r2, '.', color='blue')
 
 for i in range(len(r2)):
 
