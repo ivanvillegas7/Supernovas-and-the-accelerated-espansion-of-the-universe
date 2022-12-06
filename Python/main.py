@@ -2,7 +2,7 @@
 """
 Created on Sun Nov 20 15:04:05 2022
 
-@author: Iván
+@author: Iván Villegas Pérez
 """
 #%%Importamos los módulos que se van a utilizar
 
