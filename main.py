@@ -18,6 +18,8 @@ import pandas as pd
 
 import scipy.integrate as integrate
 
+from MyN_python_siempre_contigo import Minimiza
+
 #%%Importamos los datos
 
 M_v: float = -19.3
@@ -301,3 +303,100 @@ plt.grid(True)
 
 
 plt.savefig('r frente a z extra modelos.pdf')
+
+#%%Objetivos avanzados 3
+
+# Buscamos valores  Ω_m y Ω_Λ
+
+z_exp = z1 + z2
+
+r_exp = r1 + r2
+
+def E_aj(x: np.array, o_m: float, o_v: float):
+    
+    return 1/np.sqrt(o_m*(1+x)**3+o_v)
+
+def f(o_m):
+
+    o_v = 1-o_m
+
+    r_aj = 5*np.log10((c/H0)*(1+z_o)*integrate.simpson(E_aj(z_o, o_m, o_v), z_o))-5
+
+    diferencia = 0
+    
+    for iexp in range(len(z_exp)):
+        
+        dif = np.inf
+        
+        for iaj in range(len(z_o)):
+            
+            difx = z_exp[iexp]-z_o[iaj]
+            
+            dify = r_exp[iexp]-r_aj[iaj]
+
+            d = difx**2+dify**2 # Sin raíz para minimizar errores de cálculo
+            
+            if d<dif:
+                
+                dif = d
+                
+        diferencia+=dif
+        
+    return diferencia
+
+Materia_aj = 0
+
+h = 1e-3
+
+epsilon = 1e-8
+
+N = 200
+
+Materia_aj, f_Materia_aj = Minimiza(f, np.array([Materia_aj]), h, epsilon, N)
+
+Vacio_aj = 1 - Materia_aj
+
+omega_k_ajuste = 0
+
+omega_r_ajuste = 0
+
+r_ajuste1 = 5*np.log10((c/H0)*(1+z_o)*integrate.simpson(E_aj(z_o, Materia_aj, Vacio_aj), z_o))-5
+
+
+plt.figure()
+
+
+plt.plot(z_exp, r_exp, '.', label='Supernovas', color='blue')
+
+for i in range(len(r1)):
+
+    plt.errorbar(z1[i],r1[i], yerr = r_err1[i], capsize = 3, color='blue')
+
+plt.plot(z2, r2, '.', color='blue')
+
+for i in range(len(r2)):
+
+    plt.errorbar(z2[i],r2[i], yerr = r_err2[i], capsize = 3, color='blue')
+    
+plt.plot(z_o, CDM, color='red', label='$\Lambda$CDM concordance')
+
+plt.plot(z_o, EdS, color='black', label=r'Einstein-de Sitter model')
+
+plt.plot(z_o, C_C, color='green', label='$\Omega_\Lambda=0.5$, $\Omega_m=0.5$')
+
+plt.plot(z_o, CDM, color='orange', label=f'Ajuste: $\Omega_\Lambda=${Vacio_aj}, $\Omega_m=${Materia_aj}')
+
+plt.xlabel(r'$z$')
+
+plt.ylabel(r'$\mu$ [pc]')
+
+plt.title(r'Distance modulus ($\mu$) as a function of redshift ($z$)')
+
+plt.legend()
+
+plt.xlim(0, 0.85)
+
+plt.grid(True)
+
+
+plt.savefig('r frente a z ajuste.pdf')
